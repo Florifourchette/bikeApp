@@ -1,0 +1,36 @@
+services:
+  app:
+    image: python:3.9
+    container_name: my_python_app
+    volumes:
+      - ./app:/usr/src/app
+    working_dir: /usr/src/app
+    command: python app.py
+    ports:
+      - "5000:5000"
+    environment:
+      - ENV_VAR=production
+#    networks:
+#      - bikeapp_app_network
+
+  database:
+    image: postgres:14
+    container_name: my_database
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db
+    volumes:
+      - ./src/main/resources/db/migration/V1__initial_setup.sql:/docker-entrypoint-initdb.d/V1__initial_setup.sql
+    networks:
+      - bikeapp_app_network
+
+networks:
+  bikeapp_app_network:
+    driver: bridge
+
+volumes:
+  db_data:
