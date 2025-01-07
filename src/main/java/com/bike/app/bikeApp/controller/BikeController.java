@@ -27,6 +27,7 @@ public class BikeController {
 
     @PostMapping("/bike")
     public Bike saveName(@RequestBody Bike bike) {
-        return bikeService.saveBike(bike.getName());
+        System.out.println(bike);
+        return bikeService.saveBike(bike);
     }
 }
