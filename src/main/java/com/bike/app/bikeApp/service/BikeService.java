@@ -25,9 +25,11 @@ public class BikeService {
         bike.setModel(newBike.getModel());
         bike.setColour(newBike.getColour());
         bike.setPurchasedDate(newBike.getPurchasedDate());
-        bike.setIsNew(newBike.getIsNew());
+        bike.setNew(newBike.getNew());
         return bikeRepository.save(bike);
     }
+
+
 
     public List<Bike> getAllBikes(){
       return bikeRepository.findAll();

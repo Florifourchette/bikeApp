@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -24,9 +25,9 @@ public class Bike {
 
     private String colour;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Column(name = "purchased_date")
-    private Date purchasedDate;
+    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate purchasedDate;
 
     @Column(name = "number_of_km")
     private Integer numberOfKm;
@@ -36,7 +37,7 @@ public class Bike {
 
     private String description;
 
-    //getter und setter
+    //getter and setter
 
     public UUID getId() {
         return id;
@@ -67,11 +68,11 @@ public class Bike {
         return description;
     }
 
-    public Boolean getIsNew() {
+    public Boolean getNew() {
         return isNew;
     }
 
-    public Date getPurchasedDate() {
+    public LocalDate getPurchasedDate() {
         return purchasedDate;
     }
 
@@ -79,8 +80,9 @@ public class Bike {
         this.isNew = isNew;
     }
 
-    public void setPurchasedDate(Date purchaseDate) {
+    public void setPurchasedDate(LocalDate purchasedDate) {
         this.purchasedDate = purchasedDate;
+        System.out.println(purchasedDate);
     }
 
     public void setId(UUID id) {
@@ -111,6 +113,9 @@ public class Bike {
         this.description = description;
     }
 
+    public void setNew(Boolean aNew) {
+        isNew = aNew;
+    }
 
     @Override
     public String toString() {
