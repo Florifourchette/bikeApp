@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Table(name="bike")
+@Table(name = "bike")
 public class Bike {
 
     @Getter
@@ -25,7 +25,6 @@ public class Bike {
     private String colour;
 
     @Column(name = "purchased_date")
-    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate purchasedDate;
 
     @Column(name = "number_of_km")
