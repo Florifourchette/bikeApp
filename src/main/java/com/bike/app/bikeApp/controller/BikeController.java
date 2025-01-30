@@ -4,6 +4,9 @@ import com.bike.app.bikeApp.dto.BikeDTO;
 import com.bike.app.bikeApp.entity.Bike;
 import com.bike.app.bikeApp.service.BikeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,6 +39,4 @@ public class BikeController {
         System.out.println("bike purchase Date" + bike.getPurchasedDate());
         return bikeService.saveBike(bike);
     }
-
-
 }

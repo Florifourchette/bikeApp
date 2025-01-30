@@ -57,7 +57,6 @@ public class Bike {
         return colour;
     }
 
-
     public Integer getNumberOfKm() {
         return numberOfKm;
     }
