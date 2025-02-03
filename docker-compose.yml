@@ -23,6 +23,7 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
       POSTGRES_DB: db
+      JWT_ISSUER_URI: https://accounts.google.com
     volumes:
       - ./src/main/resources/db/migration/V1__initial_setup.sql:/docker-entrypoint-initdb.d/V1__initial_setup.sql
     networks:

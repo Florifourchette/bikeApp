@@ -5,11 +5,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name="bike")
+@Table(name = "bike")
 public class Bike {
 
     @Getter
@@ -26,7 +25,6 @@ public class Bike {
     private String colour;
 
     @Column(name = "purchased_date")
-    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate purchasedDate;
 
     @Column(name = "number_of_km")
@@ -58,7 +56,6 @@ public class Bike {
     public String getColour() {
         return colour;
     }
-
 
     public Integer getNumberOfKm() {
         return numberOfKm;

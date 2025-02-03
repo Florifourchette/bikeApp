@@ -2,11 +2,13 @@ package com.bike.app.bikeApp.service;
 
 import com.bike.app.bikeApp.entity.Bike;
 import com.bike.app.bikeApp.repository.BikeRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class BikeService {
@@ -26,12 +28,25 @@ public class BikeService {
         bike.setColour(newBike.getColour());
         bike.setPurchasedDate(newBike.getPurchasedDate());
         bike.setNew(newBike.getNew());
+
+        if (newBike.getNumberOfKm() != null && newBike.getNumberOfKm() > 0) {
+            savedKm(bike, newBike.getNumberOfKm());
+        } else {
+            bike.setNumberOfKm(0);
+        }
         return bikeRepository.save(bike);
     }
 
+    public void savedKm(Bike bike, Integer km) {
+        bike.setNumberOfKm(km);
+        bikeRepository.save(bike);
+    }
 
+    public List<Bike> getAllBikes() {
+        return bikeRepository.findAll();
+    }
 
-    public List<Bike> getAllBikes(){
-      return bikeRepository.findAll();
+    public Bike getPerId(UUID id) {
+        return bikeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Bike not found with ID: " + id));
     }
 }
