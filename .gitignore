@@ -33,5 +33,5 @@ build/
 .vscode/
 /node_modules
 
-.env.properties
+.env
 
