@@ -9,3 +9,8 @@ CREATE TABLE bike (
                        is_new BOOLEAN NOT NULL,
                        description VARCHAR(255)
 );
+
+CREATE TABLE users (
+                       id VARCHAR(255) PRIMARY KEY DEFAULT gen_random_uuid(),
+                       name VARCHAR(255) NOT NULL
+);
