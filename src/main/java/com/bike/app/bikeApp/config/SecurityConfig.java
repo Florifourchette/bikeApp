@@ -4,6 +4,7 @@ import com.bike.app.bikeApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
@@ -11,6 +12,8 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+
 import java.util.Map;
 
 @Configuration
@@ -29,12 +32,20 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/**").permitAll() // Adjust authorization rules as needed
+                        .requestMatchers("/**").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .exceptionHandling(e -> e
+                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 )
                 .oauth2Login(oauth2 -> oauth2
                         .defaultSuccessUrl("/", true)
-                        .successHandler(customSuccessHandler()) // Custom success handler
-                );
+                        .successHandler(customSuccessHandler())
+                )
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/")
+                        .permitAll()
+        );
 
         return http.build();
     }
@@ -49,9 +60,11 @@ public class SecurityConfig {
                 Map<String, Object> attributes = oauth2User.getAttributes();
                 String name = (String) attributes.get("name");
                 String username = (String) attributes.get("login");
-                System.out.print(STR."My username is:\{username}");
+                System.out.println(STR."My username is:\{username}");
+                Integer id = (Integer) attributes.get("id");
+                System.out.println(STR."My id is:\{id}");
                 String user_name = (String) attributes.get("login");
-                System.out.print(STR."My username is:\{user_name}");
+                System.out.println(STR."My username is:\{user_name}");
                 userService.saveUser(name);
             }
 
@@ -59,4 +72,5 @@ public class SecurityConfig {
             response.sendRedirect("/");
         };
     }
+
 }

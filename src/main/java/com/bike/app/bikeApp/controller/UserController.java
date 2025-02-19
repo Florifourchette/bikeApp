@@ -19,14 +19,18 @@ import java.util.Map;
 
 @SpringBootApplication
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/")
 public class UserController {
     @Autowired
     private BikeService bikeService;
 
-    @GetMapping("/hello")
-    public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return String.format("Hello %s!", name);
+    @GetMapping("/user")
+    public Map<String, Object> user(@AuthenticationPrincipal OAuth2User principal) {
+        return Collections.singletonMap("name", principal.getAttribute("name"));
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(UserController.class, args);
     }
 
 }
