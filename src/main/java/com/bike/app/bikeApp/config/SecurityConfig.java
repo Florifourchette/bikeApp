@@ -60,11 +60,11 @@ public class SecurityConfig {
                 Map<String, Object> attributes = oauth2User.getAttributes();
                 String name = (String) attributes.get("name");
                 String username = (String) attributes.get("login");
-                System.out.println(STR."My username is:\{username}");
                 Integer id = (Integer) attributes.get("id");
-                System.out.println(STR."My id is:\{id}");
                 String user_name = (String) attributes.get("login");
-                System.out.println(STR."My username is:\{user_name}");
+                System.out.println("My username is: " + username);
+                System.out.println("My id is: " + id);
+
                 userService.saveUser(name);
             }
 

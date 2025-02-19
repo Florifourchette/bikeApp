@@ -1,6 +1,7 @@
 package com.bike.app.bikeApp.controller;
 
 import com.bike.app.bikeApp.service.BikeService;
+import com.bike.app.bikeApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,15 +23,18 @@ import java.util.Map;
 @RequestMapping("/")
 public class UserController {
     @Autowired
-    private BikeService bikeService;
+    private UserService userService;
 
     @GetMapping("/user")
     public Map<String, Object> user(@AuthenticationPrincipal OAuth2User principal) {
-        return Collections.singletonMap("name", principal.getAttribute("name"));
+        System.out.println("user controller reached");
+        if (principal == null) {
+            return Collections.singletonMap("message", "User is not authenticated");
+        }
+        return Map.of(
+                "name", principal.getAttribute("name")
+        );
     }
 
-    public static void main(String[] args) {
-        SpringApplication.run(UserController.class, args);
-    }
 
 }
