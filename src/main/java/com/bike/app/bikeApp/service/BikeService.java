@@ -14,6 +14,7 @@ public class BikeService {
 
     private final BikeRepository bikeRepository;
 
+
     @Autowired
     public BikeService(BikeRepository bikeRepository) {
         this.bikeRepository = bikeRepository;
@@ -41,8 +42,8 @@ public class BikeService {
         bikeRepository.save(bike);
     }
 
-    public List<Bike> getAllBikes() {
-        return bikeRepository.findAll();
+    public List<Bike> getBikesByUserId(UUID userId) {
+        return bikeRepository.findByUserId(userId);
     }
 
     public Bike getPerId(UUID id) {

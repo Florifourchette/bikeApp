@@ -1,5 +1,6 @@
 CREATE TABLE bike (
                        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                       user_id UUID,
                        name VARCHAR(255) NOT NULL,
                        brand VARCHAR(255) NOT NULL,
                        model VARCHAR(255) NOT NULL,
@@ -11,6 +12,7 @@ CREATE TABLE bike (
 );
 
 CREATE TABLE users (
-                       id VARCHAR(255) PRIMARY KEY DEFAULT gen_random_uuid(),
-                       name VARCHAR(255)
+                       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                       name VARCHAR(255),
+                       external_provider_id VARCHAR(255)
 );

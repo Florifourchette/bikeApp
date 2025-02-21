@@ -16,6 +16,12 @@ public class User {
     private UUID id;
 
     @Setter
+    @Getter
     private String name;
+
+    @Setter
+    @Getter
+    private String externalProviderId;
+
 
 }
