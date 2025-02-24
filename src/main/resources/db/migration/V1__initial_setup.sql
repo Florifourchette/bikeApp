@@ -13,6 +13,8 @@ CREATE TABLE bike (
 
 CREATE TABLE users (
                        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                       username VARCHAR(255),
+                       email VARCHAR(255),
                        name VARCHAR(255),
                        external_provider_id VARCHAR(255)
 );

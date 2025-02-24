@@ -28,15 +28,21 @@ public class UserController {
 
     @GetMapping("/user")
     public UUID user(@AuthenticationPrincipal OAuth2User principal, OAuth2AuthenticationToken authenticationToken) {
-        System.out.println("API /user reached");
-        System.out.println((String) principal.getAttribute("name"));
-        String name = principal.getAttribute("name");
-
         String externalProviderId = "unknown";
+        String login = "unknown";
+
         if(authenticationToken != null){
             externalProviderId = authenticationToken.getAuthorizedClientRegistrationId();
         }
-        return userService.saveUser(externalProviderId, name);
+        if("google".equalsIgnoreCase(externalProviderId)){
+            login = principal.getAttribute("email");
+            System.out.println("email is"+principal.getAttribute("login"));
+        }
+        if("github".equalsIgnoreCase(externalProviderId)){
+            login = principal.getAttribute("login");
+        }
+        String name = principal.getAttribute("name");
+        return userService.getUser(externalProviderId, name, login);
     }
 
     @GetMapping("/info")

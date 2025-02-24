@@ -15,6 +15,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @Getter
+    @Setter
+    private String username;
+
+    @Getter
+    @Setter
+    private String email;
+
     @Setter
     @Getter
     private String name;
@@ -22,6 +30,4 @@ public class User {
     @Setter
     @Getter
     private String externalProviderId;
-
-
 }
