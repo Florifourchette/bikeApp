@@ -29,7 +29,9 @@ public class BikeService {
         bike.setModel(newBike.getModel());
         bike.setColour(newBike.getColour());
         bike.setPurchasedDate(newBike.getPurchasedDate());
-        bike.setNew(newBike.getNew());
+        bike.setIsNew(newBike.getIsNew());
+        System.out.println("userId is: "+userService.userId);
+        bike.setUserId(userService.userId);
 
         if (newBike.getNumberOfKm() != null && newBike.getNumberOfKm() > 0) {
             savedKm(bike, newBike.getNumberOfKm());
