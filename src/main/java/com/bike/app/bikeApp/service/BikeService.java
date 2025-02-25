@@ -4,6 +4,7 @@ import com.bike.app.bikeApp.entity.Bike;
 import com.bike.app.bikeApp.repository.BikeRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,23 +23,28 @@ public class BikeService {
         this.userService = userService;
     }
 
-    public Bike saveBike(Bike newBike) {
+    public ResponseEntity<?> saveBike(Bike newBike) {
         Bike bike = new Bike();
-        bike.setName(newBike.getName());
-        bike.setBrand(newBike.getBrand());
-        bike.setModel(newBike.getModel());
-        bike.setColour(newBike.getColour());
-        bike.setPurchasedDate(newBike.getPurchasedDate());
-        bike.setIsNew(newBike.getIsNew());
-        System.out.println("userId is: "+userService.userId);
-        bike.setUserId(userService.userId);
+        if(userService.userId != null){
+            System.out.println(userService.userId != null);
+            bike.setName(newBike.getName());
+            bike.setBrand(newBike.getBrand());
+            bike.setModel(newBike.getModel());
+            bike.setColour(newBike.getColour());
+            bike.setPurchasedDate(newBike.getPurchasedDate());
+            bike.setIsNew(newBike.getIsNew());
+            System.out.println("userId is: "+userService.userId);
+            bike.setUserId(userService.userId);
 
-        if (newBike.getNumberOfKm() != null && newBike.getNumberOfKm() > 0) {
-            savedKm(bike, newBike.getNumberOfKm());
-        } else {
-            bike.setNumberOfKm(0);
+            if (newBike.getNumberOfKm() != null && newBike.getNumberOfKm() > 0) {
+                savedKm(bike, newBike.getNumberOfKm());
+            } else {
+                bike.setNumberOfKm(0);
+            }
+            return ResponseEntity.ok(bikeRepository.save(bike));
+        }else{
+            return ResponseEntity.status(401).body("User not authenticated. Please log in.");
         }
-        return bikeRepository.save(bike);
     }
 
     public void savedKm(Bike bike, Integer km) {

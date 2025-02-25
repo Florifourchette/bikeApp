@@ -44,8 +44,7 @@ public class BikeController {
     }
 
     @PostMapping("/")
-    public Bike saveName(@RequestBody Bike bike) {
-        System.out.println(STR."bike purchase Date\{bike.getPurchasedDate()}");
+    public ResponseEntity<?> saveName(@RequestBody Bike bike) {
         return bikeService.saveBike(bike);
     }
 }
