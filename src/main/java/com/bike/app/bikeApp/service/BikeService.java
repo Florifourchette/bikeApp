@@ -5,7 +5,6 @@ import com.bike.app.bikeApp.repository.BikeRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,10 +13,13 @@ import java.util.UUID;
 public class BikeService {
 
     private final BikeRepository bikeRepository;
+    private final UserService userService;
+
 
     @Autowired
-    public BikeService(BikeRepository bikeRepository) {
+    public BikeService(UserService userService, BikeRepository bikeRepository) {
         this.bikeRepository = bikeRepository;
+        this.userService = userService;
     }
 
     public Bike saveBike(Bike newBike) {
@@ -42,8 +44,9 @@ public class BikeService {
         bikeRepository.save(bike);
     }
 
-    public List<Bike> getAllBikes() {
-        return bikeRepository.findAll();
+    public List<Bike> getBikesByUserId() {
+        System.out.println("User Id is: "+userService.userId);
+        return bikeRepository.findByUserId(userService.userId);
     }
 
     public Bike getPerId(UUID id) {

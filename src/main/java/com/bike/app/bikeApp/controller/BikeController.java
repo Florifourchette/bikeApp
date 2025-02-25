@@ -2,7 +2,9 @@ package com.bike.app.bikeApp.controller;
 
 import com.bike.app.bikeApp.dto.BikeDTO;
 import com.bike.app.bikeApp.entity.Bike;
+import com.bike.app.bikeApp.entity.User;
 import com.bike.app.bikeApp.service.BikeService;
+import com.bike.app.bikeApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,8 +18,14 @@ import java.util.UUID;
 @RequestMapping("/api/bike")
 public class BikeController {
 
+    private final UserService userService;
+    private final BikeService bikeService;
+
     @Autowired
-    private BikeService bikeService;
+    public BikeController(UserService userService, BikeService bikeService) {
+        this.userService = userService;
+        this.bikeService = bikeService;
+    }
 
     @GetMapping("/hello")
     public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
@@ -26,7 +34,8 @@ public class BikeController {
 
     @GetMapping("/all")
     public List<Bike> getAllBikes() {
-        return bikeService.getAllBikes();
+        System.out.println("In BikeController, the userId is: "+userService.userId);
+        return bikeService.getBikesByUserId();
     }
 
     @GetMapping("/{id}")
@@ -36,7 +45,7 @@ public class BikeController {
 
     @PostMapping("/")
     public Bike saveName(@RequestBody Bike bike) {
-        System.out.println("bike purchase Date" + bike.getPurchasedDate());
+        System.out.println(STR."bike purchase Date\{bike.getPurchasedDate()}");
         return bikeService.saveBike(bike);
     }
 }
