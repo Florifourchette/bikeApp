@@ -13,11 +13,13 @@ import java.util.UUID;
 public class BikeService {
 
     private final BikeRepository bikeRepository;
+    private final UserService userService;
 
 
     @Autowired
-    public BikeService(BikeRepository bikeRepository) {
+    public BikeService(UserService userService, BikeRepository bikeRepository) {
         this.bikeRepository = bikeRepository;
+        this.userService = userService;
     }
 
     public Bike saveBike(Bike newBike) {
@@ -42,8 +44,9 @@ public class BikeService {
         bikeRepository.save(bike);
     }
 
-    public List<Bike> getBikesByUserId(UUID userId) {
-        return bikeRepository.findByUserId(userId);
+    public List<Bike> getBikesByUserId() {
+        System.out.println("User Id is: "+userService.userId);
+        return bikeRepository.findByUserId(userService.userId);
     }
 
     public Bike getPerId(UUID id) {

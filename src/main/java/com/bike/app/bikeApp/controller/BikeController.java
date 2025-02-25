@@ -18,10 +18,14 @@ import java.util.UUID;
 @RequestMapping("/api/bike")
 public class BikeController {
 
-    private UserService userService;
+    private final UserService userService;
+    private final BikeService bikeService;
 
     @Autowired
-    private BikeService bikeService;
+    public BikeController(UserService userService, BikeService bikeService) {
+        this.userService = userService;
+        this.bikeService = bikeService;
+    }
 
     @GetMapping("/hello")
     public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
@@ -30,7 +34,8 @@ public class BikeController {
 
     @GetMapping("/all")
     public List<Bike> getAllBikes() {
-        return bikeService.getBikesByUserId(userService.userId);
+        System.out.println("In BikeController, the userId is: "+userService.userId);
+        return bikeService.getBikesByUserId();
     }
 
     @GetMapping("/{id}")

@@ -23,13 +23,12 @@ public class UserService {
         Optional<User> existingUser = findExistingUser(externalProviderId, login);
 
         if (existingUser.isPresent()) {
-            return existingUser.get().getId();
+            userId = existingUser.get().getId();
+            return userId;
         }
         User user = new User();
-        System.out.println("login is: "+login);
         switch (externalProviderId.toLowerCase()) {
             case "github" -> {
-                System.out.println("if GitHub reached and login is: " + login);
                 saveNewUserByUsername(user, login);
             }
             case "google" -> saveNewUserByEmail(user, login);
@@ -39,10 +38,9 @@ public class UserService {
         user.setExternalProviderId(externalProviderId);
         userRepository.save(user);
         userId = userRepository.save(user).getId();
+        System.out.println("in UserService, userId is: "+ userId);
         return userId;
     }
-
-
 
     private UUID saveNewUserByUsername(User newUser, String login){
             newUser.setUsername(login);
