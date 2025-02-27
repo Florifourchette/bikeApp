@@ -19,12 +19,12 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public UUID getUser(String externalProviderId,String name, String login) {
+    public User getUser(String externalProviderId,String name, String login) {
         Optional<User> existingUser = findExistingUser(externalProviderId, login);
 
         if (existingUser.isPresent()) {
             userId = existingUser.get().getId();
-            return userId;
+            return existingUser.get();
         }
         User user = new User();
         switch (externalProviderId.toLowerCase()) {
@@ -39,7 +39,13 @@ public class UserService {
         userRepository.save(user);
         userId = userRepository.save(user).getId();
         System.out.println("in UserService, userId is: "+ userId);
-        return userId;
+        return userRepository.save(user);
+    }
+
+    public User updateUser(String attribute, String value){
+        User user = userRepository.getReferenceById(userId);
+        System.out.println("User is :"+user);
+       return userRepository.getReferenceById(userId);
     }
 
     private UUID saveNewUserByUsername(User newUser, String login){
