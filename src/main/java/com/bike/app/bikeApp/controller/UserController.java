@@ -1,17 +1,19 @@
 package com.bike.app.bikeApp.controller;
 
+import com.bike.app.bikeApp.dto.UserDTO;
+import com.bike.app.bikeApp.entity.User;
 import com.bike.app.bikeApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
-import java.util.UUID;
+import org.springframework.web.server.ResponseStatusException;
 
 @SpringBootApplication
 @RestController
@@ -25,30 +27,39 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public UUID user(@AuthenticationPrincipal OAuth2User principal, OAuth2AuthenticationToken authenticationToken) {
+    public User user(@AuthenticationPrincipal OAuth2User principal, OAuth2AuthenticationToken authenticationToken) {
+        if (principal == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated");
+        }
+
         String externalProviderId = "unknown";
         String login = "unknown";
 
-        if(authenticationToken != null){
+        if (authenticationToken != null) {
             externalProviderId = authenticationToken.getAuthorizedClientRegistrationId();
         }
-        if("google".equalsIgnoreCase(externalProviderId)){
+
+        if ("google".equalsIgnoreCase(externalProviderId)) {
             login = principal.getAttribute("email");
-            System.out.println("email is"+principal.getAttribute("login"));
+            System.out.println("email is " + login);
         }
-        if("github".equalsIgnoreCase(externalProviderId)){
+
+        if ("github".equalsIgnoreCase(externalProviderId)) {
             login = principal.getAttribute("login");
         }
+
         String name = principal.getAttribute("name");
-        return userService.getUser(externalProviderId, name, login);
+
+        try {
+            return userService.getUser(externalProviderId, name, login);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error fetching user", e);
+        }
     }
-
-    @GetMapping("/info")
-    public Map<String, Object> getUserInfo(@AuthenticationPrincipal OidcUser oidcUser) {
-        String name = oidcUser.getAttribute("sub");
-
-        System.out.println("User ID (sub): " + name);
-
-        return oidcUser.getAttributes();
+    @PatchMapping("/user")
+    public User getUserInfo(@RequestBody UserDTO request) {
+        System.out.println("User name in UserController is: " + request.getName());
+        System.out.println("User email in UserController is: " + request.getEmail());
+        return userService.updateUser(request);
     }
 }

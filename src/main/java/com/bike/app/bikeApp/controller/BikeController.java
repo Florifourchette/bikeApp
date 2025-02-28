@@ -1,6 +1,7 @@
 package com.bike.app.bikeApp.controller;
 
 import com.bike.app.bikeApp.dto.BikeDTO;
+import com.bike.app.bikeApp.dto.UserDTO;
 import com.bike.app.bikeApp.entity.Bike;
 import com.bike.app.bikeApp.entity.User;
 import com.bike.app.bikeApp.service.BikeService;
