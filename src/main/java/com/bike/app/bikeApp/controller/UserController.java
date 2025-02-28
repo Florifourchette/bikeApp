@@ -1,5 +1,6 @@
 package com.bike.app.bikeApp.controller;
 
+import com.bike.app.bikeApp.dto.UserDTO;
 import com.bike.app.bikeApp.entity.User;
 import com.bike.app.bikeApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,15 +8,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Map;
 
 @SpringBootApplication
 @RestController
@@ -58,11 +56,10 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error fetching user", e);
         }
     }
-
-
     @PatchMapping("/user")
-    public User getUserInfo(@RequestBody String attribute, @RequestBody String value) {
-
-        return userService.updateUser(attribute, value);
+    public User getUserInfo(@RequestBody UserDTO request) {
+        System.out.println("User name in UserController is: " + request.getName());
+        System.out.println("User email in UserController is: " + request.getEmail());
+        return userService.updateUser(request);
     }
 }

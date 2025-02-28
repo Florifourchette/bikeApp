@@ -13,7 +13,6 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/user").authenticated()
                         .requestMatchers("/**").permitAll()
                 )
                 .oauth2Login(oauth2 -> oauth2

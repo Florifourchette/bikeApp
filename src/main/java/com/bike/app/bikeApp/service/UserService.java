@@ -1,9 +1,11 @@
 package com.bike.app.bikeApp.service;
 
+import com.bike.app.bikeApp.dto.UserDTO;
 import com.bike.app.bikeApp.entity.User;
 import com.bike.app.bikeApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -42,10 +44,19 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User updateUser(String attribute, String value){
-        User user = userRepository.getReferenceById(userId);
-        System.out.println("User is :"+user);
-       return userRepository.getReferenceById(userId);
+    public User updateUser(UserDTO request) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Optional.ofNullable(request.getName()) //check if name is not null
+                .filter(StringUtils::hasText) //Ensure name is not empty or only spaces
+                .ifPresent(user::setName); //Set name if valid
+
+        Optional.ofNullable(request.getEmail())
+                .filter(StringUtils::hasText)
+                .ifPresent(user::setEmail);
+
+        return userRepository.save(user);
     }
 
     private UUID saveNewUserByUsername(User newUser, String login){
@@ -65,5 +76,4 @@ public class UserService {
             case "google" -> userRepository.findByEmail(login);
             default -> Optional.empty();
         };
-
 }}
