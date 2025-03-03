@@ -54,6 +54,11 @@ public class Bike {
 
     @Getter
     @Setter
+    @Column(name = "image_url")
+    private String imageUrl;
+
+    @Getter
+    @Setter
     private String description;
 
 
