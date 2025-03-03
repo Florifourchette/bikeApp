@@ -8,7 +8,8 @@ CREATE TABLE bike (
                        purchased_date DATE,
                        number_of_km INTEGER,
                        is_new BOOLEAN NOT NULL,
-                       description VARCHAR(255)
+                       description VARCHAR(255),
+                       image_url VARCHAR(255)
 );
 
 CREATE TABLE users (
