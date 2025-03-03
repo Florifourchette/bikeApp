@@ -12,7 +12,7 @@ Maven
 
 Podman
 
-PostgreSQL (if using a database)
+PostgreSQL
 
 ⚙️ Configuration
 
