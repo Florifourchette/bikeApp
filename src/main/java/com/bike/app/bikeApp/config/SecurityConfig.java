@@ -16,7 +16,7 @@ public class SecurityConfig {
                         .requestMatchers("/**").permitAll()
                 )
                 .oauth2Login(oauth2 -> oauth2
-                        .defaultSuccessUrl("/", true)
+                        .defaultSuccessUrl("http://localhost:3000/", true)
                 )
                 .logout(logout -> logout
                         .logoutSuccessUrl("/")

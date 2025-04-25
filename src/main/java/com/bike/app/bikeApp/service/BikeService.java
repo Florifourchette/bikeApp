@@ -30,9 +30,12 @@ public class BikeService {
             bike.setName(newBike.getName());
             bike.setBrand(newBike.getBrand());
             bike.setModel(newBike.getModel());
+            bike.setType(newBike.getType());
+            bike.setElectric(newBike.getElectric());
             bike.setColour(newBike.getColour());
             bike.setPurchasedDate(newBike.getPurchasedDate());
             bike.setIsNew(newBike.getIsNew());
+            bike.setDescription(newBike.getDescription()    );
             System.out.println("userId is: "+userService.userId);
             bike.setUserId(userService.userId);
 

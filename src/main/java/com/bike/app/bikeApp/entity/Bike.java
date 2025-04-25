@@ -1,5 +1,6 @@
 package com.bike.app.bikeApp.entity;
 
+import com.bike.app.bikeApp.entity.enums.BikeType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -32,6 +33,14 @@ public class Bike {
     @Getter
     @Setter
     private String model;
+
+    @Getter
+    @Setter
+    private BikeType type;
+
+    @Getter
+    @Setter
+    private Boolean electric;
 
     @Getter
     @Setter
